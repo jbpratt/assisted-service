@@ -23,6 +23,7 @@ func main() {
 		agentinstallvalidatingwebhooks.NewInfraEnvValidatingAdmissionHook(decoder),
 		agentinstallvalidatingwebhooks.NewAgentValidatingAdmissionHook(decoder),
 		agentinstallvalidatingwebhooks.NewAgentClassificationValidatingAdmissionHook(decoder),
+		agentinstallvalidatingwebhooks.NewAgentServiceConfigValidatingAdmissionHook(decoder),
 
 		//mutating webhooks
 		hiveextwebhooks.NewAgentClusterInstallMutatingAdmissionHook(decoder),
