@@ -27,6 +27,7 @@ import (
 type OSImage struct {
 	// OpenshiftVersion is the Major.Minor version of OpenShift that this image
 	// is to be associated with.
+	// +kubebuilder:validation:MaxLength=5
 	OpenshiftVersion string `json:"openshiftVersion"`
 	// Version is the Operating System version of the image.
 	Version string `json:"version"`
@@ -38,6 +39,7 @@ type OSImage struct {
 	RootFSUrl string `json:"rootFSUrl"`
 	// The CPU architecture of the image (x86_64/arm64/etc).
 	// +optional
+	// +kubebuilder:validation:MaxLength=8
 	CPUArchitecture string `json:"cpuArchitecture"`
 }
 
@@ -84,6 +86,8 @@ type AgentServiceConfigSpec struct {
 	// OSImages defines a collection of Operating System images (ie. RHCOS images)
 	// that the assisted-service should use as the base when generating discovery ISOs.
 	//+operator-sdk:csv:customresourcedefinitions:type=spec,displayName="Operating System Images"
+	// +kubebuilder:validation:MaxItems=100
+	// +kubebuilder:validation:XValidation:rule="self.all(x, self.exists_one(y, x.openshiftVersion == y.openshiftVersion && x.cpuArchitecture == y.cpuArchitecture))",message="Duplicate OSImage entries are not allowed"
 	OSImages []OSImage `json:"osImages,omitempty"`
 
 	// MustGatherImages defines a collection of operator related must-gather images

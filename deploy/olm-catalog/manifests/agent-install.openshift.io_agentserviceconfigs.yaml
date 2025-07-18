@@ -751,11 +751,13 @@ spec:
                   properties:
                     cpuArchitecture:
                       description: The CPU architecture of the image (x86_64/arm64/etc).
+                      maxLength: 8
                       type: string
                     openshiftVersion:
                       description: |-
                         OpenshiftVersion is the Major.Minor version of OpenShift that this image
                         is to be associated with.
+                      maxLength: 5
                       type: string
                     rootFSUrl:
                       description: |-
@@ -775,6 +777,7 @@ spec:
                   - url
                   - version
                   type: object
+                maxItems: 100
                 type: array
               unauthenticatedRegistries:
                 description: |-

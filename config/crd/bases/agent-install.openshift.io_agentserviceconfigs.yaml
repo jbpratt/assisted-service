@@ -751,11 +751,13 @@ spec:
                   properties:
                     cpuArchitecture:
                       description: The CPU architecture of the image (x86_64/arm64/etc).
+                      maxLength: 8
                       type: string
                     openshiftVersion:
                       description: |-
                         OpenshiftVersion is the Major.Minor version of OpenShift that this image
                         is to be associated with.
+                      maxLength: 5
                       type: string
                     rootFSUrl:
                       description: |-
@@ -775,7 +777,12 @@ spec:
                   - url
                   - version
                   type: object
+                maxItems: 100
                 type: array
+                x-kubernetes-validations:
+                - message: Duplicate OSImage entries are not allowed
+                  rule: self.all(x, self.exists_one(y, x.openshiftVersion == y.openshiftVersion
+                    && x.cpuArchitecture == y.cpuArchitecture))
               unauthenticatedRegistries:
                 description: |-
                   UnauthenticatedRegistries is a list of registries from which container images can be pulled
